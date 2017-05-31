@@ -708,6 +708,7 @@ check[<span class="kw">which</span>(check$count &gt;<span class="st"> </span><sp
 </div>
 <div id="data-mutations" class="section level2">
 <h2><span class="header-section-number">0.4</span> Data Mutations</h2>
+<p>First, I need to use the granular box score to calculate the running totals throughout the games.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create new column with the points scored through all innings</span>
 MLBTeamGameLogs$runs_inning_1_to_9 &lt;-<span class="st"> </span>MLBTeamGameLogs$runs_inning_1 +<span class="st"> </span>MLBTeamGameLogs$runs_inning_2 +<span class="st"> </span>MLBTeamGameLogs$runs_inning_3 +<span class="st"> </span>
 <span class="st">  </span>MLBTeamGameLogs$runs_inning_4 +<span class="st"> </span>MLBTeamGameLogs$runs_inning_5 +<span class="st"> </span>MLBTeamGameLogs$runs_inning_6 +<span class="st"> </span>MLBTeamGameLogs$runs_inning_7 +<span class="st"> </span>MLBTeamGameLogs$runs_inning_8 +<span class="st"> </span>MLBTeamGameLogs$runs_inning_9

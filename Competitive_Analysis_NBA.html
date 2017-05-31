@@ -448,6 +448,7 @@ NBATeamGameLogs_Full_Data &lt;-<span class="st"> </span><span class="kw">merge</
 </div>
 <div id="data-mutations" class="section level2">
 <h2><span class="header-section-number">0.3</span> Data Mutations</h2>
+<p>First, I need to use the quarterly box score to calculate the running totals throughout the games.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create new column with the points scored through all quarters</span>
 NBATeamGameLogs$points_quarter_1_to_4 &lt;-<span class="st"> </span>NBATeamGameLogs$points_quarter_1 +<span class="st"> </span>NBATeamGameLogs$points_quarter_2 +<span class="st"> </span>NBATeamGameLogs$points_quarter_3 +<span class="st"> </span>NBATeamGameLogs$points_quarter_4
 NBATeamGameLogs$points_quarter_1_to_3 &lt;-<span class="st"> </span>NBATeamGameLogs$points_quarter_1 +<span class="st"> </span>NBATeamGameLogs$points_quarter_2 +<span class="st"> </span>NBATeamGameLogs$points_quarter_3
