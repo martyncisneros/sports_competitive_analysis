@@ -156,11 +156,10 @@ $(document).ready(function () {
 <li><a href="#data-wrangling"><span class="toc-section-number">0.1</span> Data Wrangling</a></li>
 <li><a href="#data-cleaning"><span class="toc-section-number">0.2</span> Data Cleaning</a></li>
 <li><a href="#win-v-salary-correlation"><span class="toc-section-number">0.3</span> Win v Salary Correlation</a></li>
-<li><a href="#merge-team-game-logs-with-team-info"><span class="toc-section-number">0.4</span> Merge Team Game Logs with team info</a></li>
-<li><a href="#data-mutations"><span class="toc-section-number">0.5</span> Data Mutations</a></li>
-<li><a href="#data-analysis"><span class="toc-section-number">0.6</span> Data Analysis</a></li>
-<li><a href="#predictive-models"><span class="toc-section-number">0.7</span> Predictive Models</a></li>
-<li><a href="#competitive-index"><span class="toc-section-number">0.8</span> Competitive Index</a></li>
+<li><a href="#data-mutations"><span class="toc-section-number">0.4</span> Data Mutations</a></li>
+<li><a href="#data-analysis"><span class="toc-section-number">0.5</span> Data Analysis</a></li>
+<li><a href="#predictive-models"><span class="toc-section-number">0.6</span> Predictive Models</a></li>
+<li><a href="#competitive-index"><span class="toc-section-number">0.7</span> Competitive Index</a></li>
 </ul>
 </div>
 
@@ -422,9 +421,7 @@ nba</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">q=<span class="kw">cor</span>(Wins_vs_Salary_NBA$Wins,Wins_vs_Salary_NBA$TeamSalary)
 q</code></pre></div>
 <pre><code>## [1] 0.7262808</code></pre>
-</div>
-<div id="merge-team-game-logs-with-team-info" class="section level2">
-<h2><span class="header-section-number">0.4</span> Merge Team Game Logs with team info</h2>
+<p>Merge Team Game Logs with team info</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">NBATeamGameLogs_Full_Data &lt;-<span class="st"> </span><span class="kw">merge</span>(<span class="dt">x =</span> NBATeamGameLogs_Full_Data, <span class="dt">y =</span> Wins_vs_Salary_NBA, <span class="dt">by.x =</span> <span class="st">&quot;team_id&quot;</span>, <span class="dt">by.y =</span> <span class="st">&quot;TeamId&quot;</span>, <span class="dt">all.x =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <p>Let’s now get our main dataframe ready for analysis.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">NBATeamGameLogs &lt;-<span class="st"> </span>NBATeamGameLogs_Full_Data[<span class="kw">c</span>(
@@ -480,7 +477,7 @@ q</code></pre></div>
 ##  $ points_scored_total        : int  92 100 97 113 100 107 116 103 89 108 ...</code></pre>
 </div>
 <div id="data-mutations" class="section level2">
-<h2><span class="header-section-number">0.5</span> Data Mutations</h2>
+<h2><span class="header-section-number">0.4</span> Data Mutations</h2>
 <p>First, I need to use the quarterly box score to calculate the running totals throughout the games.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create new column with the points scored through all quarters</span>
 NBATeamGameLogs$points_quarter_1_to_4 &lt;-<span class="st"> </span>NBATeamGameLogs$points_quarter_1 +<span class="st"> </span>NBATeamGameLogs$points_quarter_2 +<span class="st"> </span>NBATeamGameLogs$points_quarter_3 +<span class="st"> </span>NBATeamGameLogs$points_quarter_4
@@ -498,7 +495,7 @@ check[<span class="kw">which</span>(check$count &gt;<span class="st"> </span><sp
 ## &lt;0 rows&gt; (or 0-length row.names)</code></pre>
 </div>
 <div id="data-analysis" class="section level2">
-<h2><span class="header-section-number">0.6</span> Data Analysis</h2>
+<h2><span class="header-section-number">0.5</span> Data Analysis</h2>
 <p>I will now calculate all deltas we’re interested in.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Utilize data.table's grouping math</span>
 dt_NBATeamGameLogs &lt;-<span class="st"> </span><span class="kw">data.table</span>(NBATeamGameLogs)
@@ -669,7 +666,7 @@ NBATeamGameLogs$IsBlowOut3 &lt;-<span class="st"> </span><span class="kw">as.num
 NBA_RegularSeason &lt;-<span class="st"> </span>NBATeamGameLogs[<span class="kw">which</span>(NBATeamGameLogs$Type ==<span class="st"> 'RegularSeason'</span>),]
 NBA_Playoffs &lt;-<span class="st"> </span>NBATeamGameLogs[<span class="kw">which</span>(NBATeamGameLogs$Type ==<span class="st"> 'Playoffs'</span>),]</code></pre></div>
 <div id="game-category-results" class="section level4">
-<h4><span class="header-section-number">0.6.0.1</span> Game Category Results</h4>
+<h4><span class="header-section-number">0.5.0.1</span> Game Category Results</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Comebacks - Case 1</span>
 ComebacksInNBA_RegularSeason &lt;-<span class="st"> </span>(<span class="kw">sum</span>(NBA_RegularSeason$IsComeback)/<span class="kw">sum</span>(<span class="kw">as.numeric</span>(NBA_RegularSeason$DeltaQ1_Q3 &lt;=<span class="st"> </span>NBA_Threshold)))*<span class="dv">100</span>
 ComebacksInNBA_Playoffs&lt;-<span class="st"> </span>(<span class="kw">sum</span>(NBA_Playoffs$IsComeback)/<span class="kw">sum</span>(<span class="kw">as.numeric</span>(NBA_Playoffs$DeltaQ1_Q3 &lt;=<span class="st"> </span>NBA_Threshold)))*<span class="dv">100</span>
@@ -755,9 +752,9 @@ AVGComebackNBA</code></pre></div>
 </div>
 </div>
 <div id="predictive-models" class="section level2">
-<h2><span class="header-section-number">0.7</span> Predictive Models</h2>
+<h2><span class="header-section-number">0.6</span> Predictive Models</h2>
 <div id="create-test-and-training-data-sets" class="section level4">
-<h4><span class="header-section-number">0.7.0.1</span> Create Test and Training Data Sets</h4>
+<h4><span class="header-section-number">0.6.0.1</span> Create Test and Training Data Sets</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Split the data</span>
 <span class="kw">library</span>(caTools)
 
@@ -818,7 +815,7 @@ NBAGameData_Models &lt;-<span class="st"> </span><span class="kw">sqldf</span>(<
 <span class="st">                              ON A.game_id = B.game_id&quot;</span>)</code></pre></div>
 </div>
 <div id="cart-model" class="section level4">
-<h4><span class="header-section-number">0.7.0.2</span> CART Model</h4>
+<h4><span class="header-section-number">0.6.0.2</span> CART Model</h4>
 <p>Predicting Blow Outs</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Split Data</span>
 <span class="kw">set.seed</span>(<span class="dv">3000</span>)
@@ -875,7 +872,7 @@ NBA_AUC</code></pre></div>
 <pre><code>## [1] 0.712263</code></pre>
 </div>
 <div id="random-forest-model" class="section level4">
-<h4><span class="header-section-number">0.7.0.3</span> Random Forest Model</h4>
+<h4><span class="header-section-number">0.6.0.3</span> Random Forest Model</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Convert outcome to factor for classification model</span>
 Train$IsBlowOut3 =<span class="st"> </span><span class="kw">as.factor</span>(Train$IsBlowOut3)
 Test$IsBlowOut3 =<span class="st"> </span><span class="kw">as.factor</span>(Test$IsBlowOut3)
@@ -900,7 +897,7 @@ NBA_Random_Forest_Model_Accuracy</code></pre></div>
 </div>
 </div>
 <div id="competitive-index" class="section level2">
-<h2><span class="header-section-number">0.8</span> Competitive Index</h2>
+<h2><span class="header-section-number">0.7</span> Competitive Index</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x=(AVGComebackNBA/<span class="dv">100</span>)
 y=(AVGCloseGameNBA/<span class="dv">100</span>)
 z=(AVGBlowoutNBA/<span class="dv">100</span>)

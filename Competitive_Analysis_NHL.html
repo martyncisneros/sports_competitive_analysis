@@ -156,11 +156,10 @@ $(document).ready(function () {
 <li><a href="#data-wrangling"><span class="toc-section-number">0.1</span> Data Wrangling</a></li>
 <li><a href="#data-cleaning"><span class="toc-section-number">0.2</span> Data Cleaning</a></li>
 <li><a href="#win-v-salary-correlation"><span class="toc-section-number">0.3</span> Win v Salary Correlation</a></li>
-<li><a href="#merge-team-game-logs-with-team-info"><span class="toc-section-number">0.4</span> Merge Team Game Logs with team info</a></li>
-<li><a href="#data-mutations"><span class="toc-section-number">0.5</span> Data Mutations</a></li>
-<li><a href="#data-analysis"><span class="toc-section-number">0.6</span> Data Analysis</a></li>
-<li><a href="#predictive-models"><span class="toc-section-number">0.7</span> Predictive Models</a></li>
-<li><a href="#competitive-index"><span class="toc-section-number">0.8</span> Competitive Index</a></li>
+<li><a href="#data-mutations"><span class="toc-section-number">0.4</span> Data Mutations</a></li>
+<li><a href="#data-analysis"><span class="toc-section-number">0.5</span> Data Analysis</a></li>
+<li><a href="#predictive-models"><span class="toc-section-number">0.6</span> Predictive Models</a></li>
+<li><a href="#competitive-index"><span class="toc-section-number">0.7</span> Competitive Index</a></li>
 </ul>
 </div>
 
@@ -533,9 +532,7 @@ nhl</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">q=<span class="kw">cor</span>(Wins_vs_Salary_NHL$Wins,Wins_vs_Salary_NHL$TeamSalary)
 q</code></pre></div>
 <pre><code>## [1] 0.4539921</code></pre>
-</div>
-<div id="merge-team-game-logs-with-team-info" class="section level2">
-<h2><span class="header-section-number">0.4</span> Merge Team Game Logs with team info</h2>
+<p>Merge Team Game Logs with team info</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">NHLTeamGameLogs_Full_Data &lt;-<span class="st"> </span><span class="kw">merge</span>(<span class="dt">x =</span> NHLTeamGameLogs_Full_Data, <span class="dt">y =</span> Wins_vs_Salary_NHL, <span class="dt">by.x =</span> <span class="st">&quot;team_id&quot;</span>, <span class="dt">by.y =</span> <span class="st">&quot;TeamId&quot;</span>, <span class="dt">all.x =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <p>Let’s now get our main dataframe ready for analysis.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">NHLTeamGameLogs &lt;-<span class="st"> </span>NHLTeamGameLogs_Full_Data[<span class="kw">c</span>(<span class="st">'game_id'</span>, <span class="st">'team_id'</span>,<span class="st">'Type'</span>,<span class="st">'Season'</span>,<span class="st">'teamname'</span>,<span class="st">'is_home_team'</span>, <span class="st">'Win'</span>
@@ -618,7 +615,7 @@ q</code></pre></div>
 ##                                    0</code></pre>
 </div>
 <div id="data-mutations" class="section level2">
-<h2><span class="header-section-number">0.5</span> Data Mutations</h2>
+<h2><span class="header-section-number">0.4</span> Data Mutations</h2>
 <p>First, I need to use the quarterly box score to calculate the running goal totals throughout the games.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create new column with the points scored through all quarters</span>
 NHLTeamGameLogs$goals_period_1_to_3 &lt;-<span class="st"> </span>NHLTeamGameLogs$goals_period_1 +<span class="st"> </span>NHLTeamGameLogs$goals_period_2 +<span class="st"> </span>NHLTeamGameLogs$goals_period_3
@@ -635,7 +632,7 @@ check[<span class="kw">which</span>(check$count &gt;<span class="st"> </span><sp
 ## &lt;0 rows&gt; (or 0-length row.names)</code></pre>
 </div>
 <div id="data-analysis" class="section level2">
-<h2><span class="header-section-number">0.6</span> Data Analysis</h2>
+<h2><span class="header-section-number">0.5</span> Data Analysis</h2>
 <p>I will now calculate all deltas we’re interested in.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Utilize data.table's grouping math</span>
 dt_NHLTeamGameLogs &lt;-<span class="st"> </span><span class="kw">data.table</span>(NHLTeamGameLogs)
@@ -813,7 +810,7 @@ NHLTeamGameLogs$IsBlowOut3 &lt;-<span class="st"> </span><span class="kw">as.num
 NHL_RegularSeason &lt;-<span class="st"> </span>NHLTeamGameLogs[<span class="kw">which</span>(NHLTeamGameLogs$Type ==<span class="st"> 'RegularSeason'</span>),]
 NHL_Playoffs &lt;-<span class="st"> </span>NHLTeamGameLogs[<span class="kw">which</span>(NHLTeamGameLogs$Type ==<span class="st"> 'Playoffs'</span>),]</code></pre></div>
 <div id="game-category-results" class="section level4">
-<h4><span class="header-section-number">0.6.0.1</span> Game Category Results</h4>
+<h4><span class="header-section-number">0.5.0.1</span> Game Category Results</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Comebacks - Case 1</span>
 ComebacksInNHL_RegularSeason &lt;-<span class="st"> </span>(<span class="kw">sum</span>(NHL_RegularSeason$IsComeback)/<span class="kw">sum</span>(<span class="kw">as.numeric</span>(NHL_RegularSeason$DeltaQ1_Q2 &lt;=<span class="st"> </span>NHL_Threshold)))*<span class="dv">100</span>
 ComebacksInNHL_Playoffs&lt;-<span class="st"> </span>(<span class="kw">sum</span>(NHL_Playoffs$IsComeback)/<span class="kw">sum</span>(<span class="kw">as.numeric</span>(NHL_Playoffs$DeltaQ1_Q2 &lt;=<span class="st"> </span>NHL_Threshold)))*<span class="dv">100</span>
@@ -898,9 +895,9 @@ AVGComebackNHL</code></pre></div>
 </div>
 </div>
 <div id="predictive-models" class="section level2">
-<h2><span class="header-section-number">0.7</span> Predictive Models</h2>
+<h2><span class="header-section-number">0.6</span> Predictive Models</h2>
 <div id="create-test-and-training-data-sets" class="section level4">
-<h4><span class="header-section-number">0.7.0.1</span> Create Test and Training Data Sets</h4>
+<h4><span class="header-section-number">0.6.0.1</span> Create Test and Training Data Sets</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Split the data</span>
 <span class="kw">library</span>(caTools)
 
@@ -963,7 +960,7 @@ NHLGameData_Models &lt;-<span class="st"> </span><span class="kw">sqldf</span>(<
 <span class="st">                            ON A.game_id = B.game_id&quot;</span>)</code></pre></div>
 </div>
 <div id="cart-model" class="section level4">
-<h4><span class="header-section-number">0.7.0.2</span> CART Model</h4>
+<h4><span class="header-section-number">0.6.0.2</span> CART Model</h4>
 <p>Predicting Close Games</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Split Data</span>
 <span class="kw">set.seed</span>(<span class="dv">3000</span>)
@@ -1016,7 +1013,7 @@ perf =<span class="st"> </span><span class="kw">performance</span>(pred, <span c
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">NHL_AUC &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">performance</span>(pred, <span class="st">&quot;auc&quot;</span>)@y.values)</code></pre></div>
 </div>
 <div id="random-forest-model" class="section level4">
-<h4><span class="header-section-number">0.7.0.3</span> Random Forest Model</h4>
+<h4><span class="header-section-number">0.6.0.3</span> Random Forest Model</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Convert outcome to factor for classification model</span>
 Train$IsCloseGame3 =<span class="st"> </span><span class="kw">as.factor</span>(Train$IsCloseGame3)
 Test$IsCloseGame3 =<span class="st"> </span><span class="kw">as.factor</span>(Test$IsCloseGame3)
@@ -1043,7 +1040,7 @@ NHL_Random_Forest_Model_Accuracy</code></pre></div>
 </div>
 </div>
 <div id="competitive-index" class="section level2">
-<h2><span class="header-section-number">0.8</span> Competitive Index</h2>
+<h2><span class="header-section-number">0.7</span> Competitive Index</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x=(AVGComebackNHL/<span class="dv">100</span>)
 y=(AVGCloseGameNHL/<span class="dv">100</span>)
 z=(AVGBlowoutNHL/<span class="dv">100</span>)
